@@ -1,38 +1,35 @@
-import pygame
-
-
-grid_width, grid_height = 10, 20
-tileSize = 45
-Game_res = grid_width * tileSize, grid_height * tileSize
-fps = 60
-
-grid = [pygame.Rect(x * tileSize, y * tileSize, tileSize, tileSize) for x in range(grid_width) for y in range(grid_height)]
-
-block_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
-               [(0, -1), (-1, -1), (-1, 0), (0, 0)],
-               [(-1, 0), (-1, 1), (0, 0), (0, -1)],
-               [(0, 0), (-1, 0), (0, 1), (-1, -1)],
-               [(0, 0), (0, -1), (0, 1), (-1, -1)],
-               [(0, 0), (0, -1), (0, 1), (1, -1)],
-               [(0, 0), (0, -1), (0, 1), (-1, 0)]]
-
-block_rect = pygame.Rect(0, 0, tileSize - 2, tileSize - 2)
-field = [[0 for i in range(grid_width)] for j in range(grid_height)]
+import pygame,sys
+from grid import Grid
 
 pygame.init()
 
-screen = pygame.display.set_mode(Game_res)
+# gridline color
+dark_blue = (44, 44, 127)
+
+screen = pygame.display.set_mode((300, 600))
 pygame.display.set_caption("Python Tetris")
+
 clock = pygame.time.Clock()
 
+game_grid = Grid()
+
+
+game_grid.print_grid()
+
 while True:
-    screen.fill(pygame.Color('dark blue'))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            exit()
+            pygame.quit()
+            sys.exit()
 
-        [pygame.draw.rect(screen, (40, 40, 40), i_rect, 1) for i_rect in grid]
+    # draw grid
 
+    game_grid.draw(screen)
+
+    screen.fill(dark_blue)
+    game_grid.draw(screen)
     pygame.display.flip()
-    clock.tick(fps)
+    clock.tick(60)
+
+
